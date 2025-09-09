@@ -1,7 +1,7 @@
 # AI Learning Mini MVP
 
-A Node.js (TypeScript) server with Express, PostgreSQL (Docker), and Prisma.  
-Includes initial API endpoints for categories and lessons, database migrations, and seed data.
+A Node.js (TypeScript) server with Express, PostgreSQL (Docker), Prisma, and OpenAI integration.  
+Provides APIs to manage users, categories, subcategories, and AI-generated lessons.
 
 ---
 
@@ -22,8 +22,8 @@ Includes initial API endpoints for categories and lessons, database migrations, 
 
 ## Prerequisites
 - **Node.js** v18+ and npm
-- **Docker Desktop** with WSL2 enabled (Windows)
-- Optional: Postman Desktop or Thunder Client (VS Code extension) for API testing
+- **Docker Desktop** with WSL2 (on Windows)
+- Optional: Postman Desktop or Thunder Client for API testing
 
 ---
 
@@ -34,19 +34,19 @@ Includes initial API endpoints for categories and lessons, database migrations, 
 cd server
 npm install
 
-# 2) Run PostgreSQL with Docker
+# 2) Run PostgreSQL locally via Docker
 docker compose up -d
 
-# 3) Create environment file (.env) and configure DATABASE_URL
+# 3) Configure environment variables in server/.env (see below)
 
-# 4) Run Prisma migrations and generate client
+# 4) Prisma – run initial migration and generate client
 npx prisma migrate dev --name init
 npx prisma generate
 
 # 5) (Optional) Seed initial data
 npx prisma db seed
 
-# 6) Start the development server
+# 6) Start the dev server
 npm run dev
-# Server runs on: http://localhost:4000
+# Server: http://localhost:4000
 

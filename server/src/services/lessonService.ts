@@ -1,28 +1,32 @@
 import { prisma } from "../config/db";
+import { generateLessonContent } from "./aiService";
 
-export async function createLesson(params: {
-  userId?: number;
+export interface LessonInput {
   categoryId: number;
   subCategoryId: number;
   prompt: string;
-}) {
-  // תוכן דמו "מזויף" בשלב ראשון — נחליף ל-AI בהמשך
-  const title = `שיעור: ${params.prompt}`;
-  const content = [
-    `מטרה: להבין ${params.prompt}`,
-    "תוכן:",
-    "1) היכרות עם הנושא",
-    "2) דוגמאות",
-    "3) תרגול קצר",
-  ].join("\n");
+  userId?: number;
+}
 
+/**
+ * Creates a lesson using AI-generated content.
+ * 1) Generates content from the given prompt
+ * 2) Persists the lesson in the DB
+ */
+export async function createLesson(input: LessonInput) {
+  const { categoryId, subCategoryId, prompt, userId } = input;
+
+  // 1) Generate content via OpenAI
+  const content = await generateLessonContent(prompt);
+
+  // 2) Save to DB
   return prisma.lesson.create({
     data: {
-      userId: params.userId,
-      categoryId: params.categoryId,
-      subCategoryId: params.subCategoryId,
-      title,
+      title: `Lesson: ${prompt}`,
       content,
+      categoryId,
+      subCategoryId,
+      userId,
     },
   });
 }

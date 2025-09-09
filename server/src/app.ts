@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler";
@@ -21,6 +24,13 @@ app.use("/api/health", health);
 app.use("/api/categories", categories);
 app.use("/api/lessons", lessons); 
 app.use("/api/users", users); 
+
+// Root info (so / won't be 404)
+app.get("/", (_req, res) => res.send("Server is up. Try /api/health"));
+
+// 404 fallback (after all routes)
+app.use((_req, res) => res.status(404).json({ ok: false, message: "Not found" }));
+
 
 // טיפול שגיאות
 app.use(errorHandler);

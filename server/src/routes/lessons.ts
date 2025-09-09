@@ -2,6 +2,7 @@ import { Router } from "express";
 import { createLesson } from "../services/lessonService";
 import { createLessonSchema } from "../schemas/lesson";
 import { prisma } from "../config/db";
+import { validate } from "../middlewares/validate";
 
 const router = Router();
 
@@ -9,23 +10,14 @@ const router = Router();
  * POST /api/lessons
  * body: { categoryId, subCategoryId, prompt, userId? }
  */
-router.post("/", async (req, res, next) => {
-  try {
-    const parsed = createLessonSchema.parse(req.body);
-    const lesson = await createLesson(parsed);
-    res.status(201).json({ ok: true, data: lesson });
-  } catch (err: any) {
-    // אם זו שגיאת ולידציה של Zod – נחזיר 400 עם פירוט
-    if (err?.issues) {
-      return res.status(400).json({
-        ok: false,
-        message: "Validation failed",
-        issues: err.issues,
-      });
+router.post("/", validate(createLessonSchema), async (req, res, next) => {
+    try {
+      const lesson = await createLesson(req.body);
+      res.status(201).json({ ok: true, data: lesson });
+    } catch (err) {
+      next(err);
     }
-    next(err);
-  }
-});
+  });
 /**
  * GET /api/lessons
  * מחזיר את כל השיעורים
