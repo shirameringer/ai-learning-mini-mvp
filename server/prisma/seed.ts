@@ -1,35 +1,46 @@
+// server/prisma/seed.ts
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
+
+type SeedItem = { name: string; subs: string[] };
+
+// === 6 New High-School categories ===
+const CATALOG: SeedItem[] = [
+  { name: "Mathematics", subs: ["Algebra", "Geometry", "Trigonometry", "Calculus"] },
+  { name: "Physics", subs: ["Mechanics", "Electricity & Magnetism", "Waves & Optics"] },
+  { name: "Chemistry", subs: ["General Chemistry", "Organic Chemistry", "Analytical Chemistry"] },
+  { name: "Biology", subs: ["Cell Biology", "Genetics", "Human Physiology"] },
+  { name: "Computer Science", subs: ["Programming Basics", "Data Structures", "Web Development"] },
+  { name: "English Language", subs: ["Grammar", "Reading Comprehension", "Essay Writing"] },
+];
+
 async function main() {
-  // קטגוריה ראשית
-  const web = await prisma.category.upsert({
-    where: { name: "Web Development" },
-    update: {},
-    create: { name: "Web Development" },
-  });
+  // 1) wipe existing data (order matters to satisfy FK)
+  await prisma.$transaction([
+    prisma.lesson.deleteMany({}),       // lessons first (refer to subCategory/category)
+    prisma.subCategory.deleteMany({}),
+    prisma.category.deleteMany({}),
+  ]);
 
-  // תתי קטגוריות
-  await prisma.subCategory.upsert({
-    where: { name_categoryId: { name: "HTML Basics", categoryId: web.id } },
-    update: {},
-    create: { name: "HTML Basics", categoryId: web.id },
-  });
+  // 2) insert fresh catalog
+  for (const item of CATALOG) {
+    const cat = await prisma.category.create({ data: { name: item.name } });
+    for (const sub of item.subs) {
+      await prisma.subCategory.create({
+        data: { name: sub, categoryId: cat.id },
+      });
+    }
+  }
 
-  await prisma.subCategory.upsert({
-    where: { name_categoryId: { name: "CSS Fundamentals", categoryId: web.id } },
-    update: {},
-    create: { name: "CSS Fundamentals", categoryId: web.id },
-  });
-
-  console.log("✅ Seed completed");
+  console.log(`✅ Seed completed. Created ${CATALOG.length} categories.`);
 }
 
 main()
-  .then(() => prisma.$disconnect())
   .catch((e) => {
-    console.error(e);
-    prisma.$disconnect();
+    console.error("Seed failed:", e);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
