@@ -1,18 +1,18 @@
 import { z } from "zod";
 
-/** Create user schema */
 export const createUserSchema = z.object({
-  name: z.string().min(2, "Name must have at least 2 characters"),
-  phone: z.string().min(5, "Phone number is too short"),
-}).strict();
-
-/** Update user schema (optional fields; at least one) */
-export const updateUserSchema = z.object({
-  name: z.string().min(2).optional(),
-  phone: z.string().min(5).optional(),
-})
-  .strict()
-  .refine(obj => Object.keys(obj).length > 0, { message: "No fields to update" });
-
+  name: z.string().min(2, "Name is required"),
+  phone: z.string().min(6, "Phone is required"),
+});
 export type CreateUserInput = z.infer<typeof createUserSchema>;
+
+export const updateUserSchema = z
+  .object({
+    name: z.string().min(2).optional(),
+    phone: z.string().min(6).optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field (name or phone) must be provided",
+  });
+
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;

@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -30,6 +31,7 @@ model SubCategory {
 
   @@unique([name, categoryId], name: "name_categoryId")
 }
+
 model Lesson {
   id            Int         @id @default(autoincrement())
   user          User?       @relation(fields: [userId], references: [id])
@@ -38,7 +40,11 @@ model Lesson {
   categoryId    Int
   subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
   subCategoryId Int
+
   title         String
-  content       String
+  content       String            // (קיים) לא נמחק
+  contentMarkdown String?         // (חדש) Markdown אופציונלי
+  contentJson   Json?             // (חדש) ייצוג מובנה (jsonb)
+
   createdAt     DateTime    @default(now())
 }

@@ -1,8 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+// ===== src/middlewares/errorHandler.ts =====
+import { ErrorRequestHandler, RequestHandler } from "express";
 
-export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
-  res.status(err?.status ?? 500).json({
+export const notFound: RequestHandler = (_req, res) => {
+  res.status(404).json({ ok: false, error: "NotFound" });
+};
+
+export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  console.error(err);
+  const status = (err as any)?.status || 500;
+  res.status(status).json({
     ok: false,
-    error: err?.message ?? "Internal Server Error",
+    error: (err as any)?.message || "InternalServerError",
   });
-}
+};
