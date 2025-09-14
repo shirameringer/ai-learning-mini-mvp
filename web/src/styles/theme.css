@@ -1,0 +1,252 @@
+
+/* web/src/styles/theme.css
+   =====================================================================
+   Electronic Luxury — Light Theme (Bootstrap-friendly, no Tailwind)
+   - Clean light background
+   - Colorful gradient accents
+   - Single-card Lesson View
+   - History grid
+   ===================================================================== */
+
+/* ------------------------------ Tokens ------------------------------ */
+:root{
+    /* Base */
+    --bg: #f7f9fc;
+    --bg-2: #ffffff;
+    --surface: #ffffff;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #0f172a;
+    --muted: #6b7280;
+  
+    /* Accents */
+    --primary: #06b6d4;     /* cyan */
+    --primary-2: #7c3aed;   /* violet */
+  
+    /* Radii & Shadows */
+    --radius-xl: 20px;
+    --radius-lg: 16px;
+    --radius: 12px;
+  
+    --shadow-lg: 0 20px 50px rgba(2,6,23,.08);
+    --shadow-md: 0 12px 28px rgba(2,6,23,.06);
+    --shadow-sm: 0 8px 18px rgba(2,6,23,.05);
+  }
+  
+  /* --------------------------- App Background -------------------------- */
+  html, body, #root{
+    height:100%;
+    background:
+      radial-gradient(1200px 600px at 90% -10%, #eef2ff 0%, transparent 60%),
+      radial-gradient(900px 500px at -20% 120%, #e0f2fe 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    color:var(--text);
+  }
+  
+  /* ------------------------------- Navbar ------------------------------ */
+  .navbar-elevated.navbar{
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fb 100%);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .navbar-elevated .navbar-brand{
+    color:var(--text) !important;
+    font-weight:800;
+    letter-spacing:.3px;
+  }
+  .navbar-elevated .nav-link{
+    color:#1f2937 !important;
+    opacity:.9;
+  }
+  .navbar-elevated .nav-link:hover{ opacity:1; }
+  
+  /* Optional colorful dark variant (if you add .navbar-colored-dark) */
+  .navbar-colored-dark.navbar{
+    background: linear-gradient(120deg, #0b1020 0%, #1f2a6b 35%, #6d28d9 65%, #06b6d4 100%);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 10px 24px rgba(2,6,23,.25);
+  }
+  .navbar-colored-dark .navbar-brand,
+  .navbar-colored-dark .nav-link{ color:#f8fafc !important; }
+  .navbar-colored-dark .nav-link{ opacity:.9; }
+  .navbar-colored-dark .nav-link:hover{ opacity:1; }
+  .navbar-colored-dark.navbar.navbar-animated{
+    background-size:200% 200%;
+    animation: navbarShift 16s ease infinite;
+  }
+  @keyframes navbarShift{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  
+  /* ------------------------------ Headings ----------------------------- */
+  .page-title{
+    font-weight:800;
+    color:#0b1220;
+    text-align:center;
+    letter-spacing:.3px;
+    margin:20px 0 10px;
+  }
+  
+  /* ------------------------------- Surfaces ---------------------------- */
+  .welcome-bar{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-sm);
+  }
+  .panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);
+  }
+  .panel-header{ font-weight:700; color:#111827; }
+  
+  /* -------------------------------- Forms ------------------------------ */
+  .form-control,.form-select{
+    background:#fff;
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:var(--radius);
+  }
+  .form-control::placeholder{ color:#9aa4b2; }
+  .form-control:focus,.form-select:focus{
+    border-color: rgba(6,182,212,.65);
+    box-shadow: 0 0 0 .2rem rgba(6,182,212,.15);
+  }
+  
+  /* ------------------------------- Buttons ----------------------------- */
+  .btn-primary{
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 100%);
+    border:none; color:#fff; font-weight:800; border-radius:999px;
+  }
+  .btn-primary:hover{ filter:brightness(1.05); }
+  .btn-outline-primary{ color:var(--primary); border-color:var(--primary); }
+  .btn-outline-primary:hover{ background:var(--primary); color:#fff; border-color:var(--primary); }
+  
+  /* --------------------------------- Auth ------------------------------ */
+  .auth-wrap{
+    min-height: calc(100vh - 72px);
+    display:grid; place-items:center; padding:24px;
+  }
+  .auth-container{ width:min(720px,100%); }
+  .auth-card{
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    border:1px solid var(--border);
+    border-radius:24px;
+    box-shadow:var(--shadow-lg);
+    color:var(--text);
+  }
+  .title-electro{
+    background: linear-gradient(90deg, #6d28d9, #06b6d4);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    font-weight:900; letter-spacing:.4px;
+  }
+  .subtle{ color:var(--muted); }
+  
+  /* --------------------------- History (dashboard) --------------------- */
+  .history-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
+    gap:16px;
+  }
+  .history-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow-sm);
+    padding:12px 14px; color:var(--text);
+    transition: transform .15s ease, box-shadow .15s ease;
+    min-height:120px; display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .history-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
+  .history-card .title{
+    font-weight:700; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .history-card .snippet{ color:var(--muted); font-size:.92rem; line-height:1.2rem; min-height:2.4rem; }
+  .history-card .meta{
+    margin-top:8px; display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:.85rem;
+  }
+  
+  /* -------------------------------- Chips ------------------------------ */
+  .chip{
+    border-radius:999px; padding:.28rem .7rem;
+    border:1px solid var(--border); background:#fff; color:#0f172a; font-weight:600;
+  }
+  .chip-gradient{
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 100%);
+    color:#fff; border:none;
+  }
+  .chip-outline{
+    background:#fff; border:1px solid rgba(6,182,212,.45); color:#065f73;
+  }
+  
+  /* ----------------------------- Markdown box -------------------------- */
+  .markdown-body{
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    padding:18px; box-shadow:var(--shadow-sm); color:#0f172a;
+  }
+  .markdown-body pre{ margin:0; white-space:pre-wrap; word-break:break-word; }
+  .markdown-body h1,.markdown-body h2,.markdown-body h3{
+    color:#0b1220; margin-top:1rem; margin-bottom:.5rem; font-weight:800;
+  }
+  .markdown-body ul,.markdown-body ol{ padding-left:1.2rem; }
+  
+  /* =====================================================================
+     LESSON VIEW — Single Big Card (English UI)
+     ===================================================================== */
+  
+  /* Container: centered, comfortable reading width with clean side margins */
+  .lesson-container{
+    max-width: 980px;        /* <= your “narrow” content width */
+    margin: 0 auto;          /* centers horizontally */
+    padding: 24px 16px 56px; /* inner spacing */
+  }
+  
+  /* Remove the thin stripe under the navbar (if present in markup) */
+  .lesson-topbar{ display:none !important; }
+  
+  /* Toolbar (Back + Copy Text) */
+  .lesson-toolbar{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+  }
+  .lesson-toolbar .back-link{
+    color:var(--primary-2); font-weight:600; text-decoration:none;
+  }
+  .lesson-toolbar .back-link:hover{ text-decoration:underline; }
+  .copy-btn{
+    border:none; font-weight:700; padding:8px 16px; border-radius:999px; color:#fff;
+    background: linear-gradient(90deg,#06b6d4 0%, #7c3aed 100%);
+    box-shadow:0 8px 24px rgba(47,124,245,.25);
+  }
+  
+  /* Outer “glow” card with a subtle gradient border */
+  .card-glow{
+    background:linear-gradient(#fff,#fff) padding-box,
+               linear-gradient(90deg,#6a11cb,#2f7cf5) border-box;
+    border:2px solid transparent; border-radius:18px;
+    box-shadow:0 12px 32px rgba(32,56,117,.12);
+    padding:24px 28px;
+    margin:24px auto; width:100%;
+  }
+  
+  /* Date (right side of chip row) */
+  .lesson-date{ color:#7b89a6; font-weight:600; }
+  
+  /* Markdown inside lesson card should look native to the card */
+  .lesson-single-markdown{
+    border:none; box-shadow:none; padding:0;
+  }
+  .lesson-single-markdown h1,
+  .lesson-single-markdown h2,
+  .lesson-single-markdown h3{
+    margin-top:.8rem; margin-bottom:.4rem;
+  }
+  
+  /* Optional: on ultra-wide screens, narrow a bit more */
+  @media (min-width: 1600px){
+    .lesson-container{ max-width: 900px; }
+  }
+  

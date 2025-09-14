@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ai_learning_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aiuser
+      POSTGRES_PASSWORD: aistrongpass
+      POSTGRES_DB: ai_learning
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
